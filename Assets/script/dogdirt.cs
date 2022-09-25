@@ -20,6 +20,9 @@ public class dogdirt : MonoBehaviourPunCallbacks
     private Renderer capsule4;
     private Renderer capsule5;
 
+    private bool dirty = false;
+    private int dirtytimer = 0;
+
     // public GameObject lamp;
     
     // Start is called before the first frame update
@@ -31,6 +34,10 @@ public class dogdirt : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if(dirtytimer > 0)
+            dirtytimer --;
+        if(dirtytimer < 0)
+            dirtytimer = 0;
         dog = GameObject.Find("dogp(Clone)");
         DPV = dog.gameObject.GetComponent<PhotonView>();
         dogleg = dog.transform.GetChild(1).gameObject;
@@ -45,13 +52,25 @@ public class dogdirt : MonoBehaviourPunCallbacks
         capsule5 = dogleg5.GetComponent<Renderer>();
         // if(Input.GetKeyDown(KeyCode.I) && DPV.IsMine);
         //     lamp.transform.Translate(new Vector3(0,-1f,0));
+        if(dirty == true)
+        {
+            if (dirtytimer == 0)
+            {
+                PhotonNetwork.Instantiate("dirtyt", new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+                dirtytimer = 30;
+                Debug.Log("spawn");
+            }
+        }
+
+
     }
 
     private void OnCollisionEnter(Collision col)
     {
         if(col.gameObject.tag == "dirt")
         {
-            // Debug.Log("2");
+            dirty = true;
+            Debug.Log(dirty);
             capsule.material.color = new Color(99/255f , 65/255f, 21/255f);
             capsule2.material.color = new Color(99/255f , 65/255f, 21/255f);
             capsule3.material.color = new Color(99/255f , 65/255f, 21/255f);
@@ -60,6 +79,7 @@ public class dogdirt : MonoBehaviourPunCallbacks
         }
         if(col.gameObject.tag == "soap")
         {
+            dirty = false;
             capsule.material.color = new Color(251/255f , 174/255f, 90/255f);
             capsule2.material.color = new Color(251/255f , 174/255f, 90/255f);
             capsule3.material.color = new Color(251/255f , 174/255f, 90/255f);

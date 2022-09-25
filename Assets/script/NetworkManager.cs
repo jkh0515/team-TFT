@@ -12,8 +12,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject loading;
     public GameObject bt;
     public GameObject fordog;
+    public GameObject finish;
+    public Text finalt;
     
-    private int endtimer = 100000;
+    private int final = 0;
+    private int endtimer = 18000;
 
     void Awake()
     {
@@ -25,6 +28,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         mainsc.SetActive(false);
         loading.SetActive(false);
         fordog.SetActive(false);
+        finish.SetActive(false);
     }
 
     public void Connect() {
@@ -43,8 +47,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         mainsc.SetActive(false);
         fordog.SetActive(false);
         loading.SetActive(true);
-        PhotonNetwork.CreateRoom("tft", new RoomOptions { MaxPlayers = 2 });
-        // PhotonNetwork.JoinRoom("tft");
+        // PhotonNetwork.CreateRoom("tft", new RoomOptions { MaxPlayers = 2 });
+        PhotonNetwork.JoinRoom("tft");
         Invoke("createhuman",3f);
 
     }
@@ -70,8 +74,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         mainsc.SetActive(false);
         loading.SetActive(true);
         fordog.SetActive(false);
-        PhotonNetwork.JoinRoom("tft");
-        // PhotonNetwork.CreateRoom("tft", new RoomOptions { MaxPlayers = 2 });
+        // PhotonNetwork.JoinRoom("tft");
+        PhotonNetwork.CreateRoom("tft", new RoomOptions { MaxPlayers = 2 });
         Invoke("createdog",3f);
     }
 
@@ -105,11 +109,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             endtimer = 0;
         if(endtimer == 0)
         {
-            intro.SetActive(true);
+            intro.SetActive(false);
             mainsc.SetActive(false);
             fordog.SetActive(false);
-
+            finish.SetActive(true);
+            ending();
         }
+    }
+
+    void ending()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("pee");
+        GameObject[] obj2 = GameObject.FindGameObjectsWithTag("poo");
+        final = obj.Length + obj2.Length*50;
+        finalt.text = "최종 점수 : " + final;
     }
 
 }

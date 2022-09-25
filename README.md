@@ -33,6 +33,11 @@
 /Assets/script 에 스크립트 전체가 들어가있습니다.<br>
 /tft build 에 exe 파일을 실행시키면 게임 플레이가 가능합니다.
 
+사용한 에셋들 <br>
+● PUN 2 - FREE <br>
+● Simple Home Stuff <br>
+● FREE Casual Food Pack- Mobile/VR <br>
+● Low Poly Cartoon Mini Pack Free <br>
 
 ● 유튜브링크
 https://youtu.be/r9mscR-bs-E
